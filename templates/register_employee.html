@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Registration</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Register Employee</h2>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.first_name.label }} {{ form.first_name(size=32) }} {{ form.first_name.errors }}
+            </div>
+            <div>
+                {{ form.last_name.label }} {{ form.last_name(size=32) }} {{ form.last_name.errors }}
+            </div>
+            <div>
+                {{ form.email.label }} {{ form.email(size=32) }} {{ form.email.errors }}
+            </div>
+            <div>
+                {{ form.job_title.label }} {{ form.job_title(size=32) }} {{ form.job_title.errors }}
+            </div>
+            <div>
+                {{ form.department.label }} {{ form.department(size=32) }} {{ form.department.errors }}
+            </div>
+            <div>
+                {{ form.hire_date.label }} {{ form.hire_date() }} {{ form.hire_date.errors }}
+            </div>
+            <div>
+                {{ form.username.label }} {{ form.username(size=32) }} {{ form.username.errors }}
+            </div>
+            <div>
+                {{ form.password.label }} {{ form.password(size=32) }} {{ form.password.errors }}
+            </div>
+            <div>
+                {{ form.submit() }}
+            </div>
+        </form>
+        <a href="{{ url_for('login_employee') }}">Already have an account? Login here.</a>
+    </div>
+</body>
+</html>

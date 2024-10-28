@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">  <!-- Optional: Link to a CSS file -->
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Employee Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Your Information</h2>
+        <!-- Display employee information here -->
+        <p>Username: {{ current_user.username }}</p>
+        <p>Role: {{ current_user.role }}</p>
+
+        <h3>Recent Activities</h3>
+        <!-- Add a section for recent activities -->
+        <ul>
+            <li>Activity 1</li>
+            <li>Activity 2</li>
+            <li>Activity 3</li>
+        </ul>
+    </main>
+    <footer>
+        <p>&copy; 2024 Your Company Name</p>
+    </footer>
+</body>
+</html>

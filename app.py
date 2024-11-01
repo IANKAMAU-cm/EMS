@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
-from forms import EmployeeForm, EmployeeLoginForm, ManagerLoginForm, AdminLoginForm, RegistrationForm
+from forms import EmployeeForm, EmployeeLoginForm, ManagerLoginForm, AdminLoginForm, RegistrationForm, ManagerRegistrationForm, AdminRegistrationForm
 from models import db, Employee, User
 from functools import wraps
 from flask import abort
@@ -61,6 +61,7 @@ def register_employee():
         # Create new User object
         user = User(
             username=form.username.data,
+            email=form.email.data,  # Set the email field
             role='Employee'  # Set role to Employee by default
         )
         user.set_password(form.password.data)  # Hash the password
@@ -84,9 +85,7 @@ def register_employee():
 
         flash('Registration successful! You can now log in.')
         return redirect(url_for('login_employee'))  # Redirect to employee login
-    return render_template('register_employee.html', form=form)  # Render the registration form
-
-# Similar routes can be created for Manager and Admin registrations
+    return render_template('register_employee.html', form=form)
 
 
 @app.route('/login/employee', methods=['GET', 'POST'])
@@ -128,26 +127,26 @@ def login_admin():
 
 @app.route('/register_manager', methods=['GET', 'POST'])
 def register_manager():
-    form = RegistrationForm()
+    form = ManagerRegistrationForm()
     if form.validate_on_submit():
-        manager = User(username=form.username.data, role='Manager')
+        manager = User(username=form.username.data, email=form.email.data, role='Manager')
         manager.set_password(form.password.data)
         db.session.add(manager)
         db.session.commit()
         flash('Manager account created successfully!', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('login_manager'))
     return render_template('register_manager.html', form=form)
 
 @app.route('/register_admin', methods=['GET', 'POST'])
 def register_admin():
-    form = RegistrationForm()
+    form = AdminRegistrationForm()
     if form.validate_on_submit():
-        admin = User(username=form.username.data, role='Admin')
+        admin = User(username=form.username.data, email=form.email.data, role='Admin')
         admin.set_password(form.password.data)
         db.session.add(admin)
         db.session.commit()
         flash('Admin account created successfully!', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('login_admin'))
     return render_template('register_admin.html', form=form)
 
 

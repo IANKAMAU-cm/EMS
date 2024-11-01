@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Manager Dashboard</h1>
+
+        <div class="dashboard-section">
+            <h2>Overview</h2>
+            <p>As a manager, you can monitor inventory levels and review orders.</p>
+        </div>
+
+        <div class="dashboard-actions">
+            <ul>
+                <li><a href="#">View Orders</a></li>
+                <li><a href="#">Manage Inventory</a></li>
+                <li><a href="#">Low Stock Items</a></li>
+            </ul>
+        </div>
+
+        <div class="logout">
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Admin Dashboard</h1>
+
+        <div class="dashboard-section">
+            <h2>Overview</h2>
+            <p>Here you can manage all aspects of the system, including users, orders, and inventory.</p>
+        </div>
+
+        <div class="dashboard-actions">
+            <ul>
+                <li><a href="#">Manage Users</a></li>
+                <li><a href="#">View Orders</a></li>
+                <li><a href="#">Manage Inventory</a></li>
+                <li><a href="#">View Reports</a></li>
+            </ul>
+        </div>
+
+        <div class="logout">
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

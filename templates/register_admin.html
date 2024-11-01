@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Registration</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Register Admin</h2>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.username.label }} {{ form.username(size=32) }} {{ form.username.errors }}
+            </div>
+            <div>
+                {{ form.email.label }} {{ form.email(size=32) }} {{ form.email.errors }}
+            </div>
+            <div>
+                {{ form.password.label }} {{ form.password(size=32) }} {{ form.password.errors }}
+            </div>
+            <div>
+                {{ form.submit() }}
+            </div>
+        </form>
+        <a href="{{ url_for('login_admin') }}">Already have an account? Login here.</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Manage Leave Requests</title>
+</head>
+<body>
+    <h1>Pending Leave Requests</h1>
+    <ul>
+        {% for request in leave_requests %}
+            <li>
+                Employee: {{ request.employee.username }} - From {{ request.start_date }} to {{ request.end_date }}
+                <a href="{{ url_for('approve_leave', request_id=request.id) }}">Review</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('manager_dashboard') }}">Back to Dashboard</a>
+</body>
+</html>

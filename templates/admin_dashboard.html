@@ -4,10 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha384-u0hX5ZhBzW0gOpN/q2+YZVe+mpsxt5Vgy6iqNHk9ZsWv8LGxjjYbrTEhz8UjbvBr" crossorigin="anonymous">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            min-height: 100vh;
+            color: #333;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #ffff;
+            color: #4B49AC;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .sidebar h2 {
+            margin-bottom: 30px;
+            font-size: 1.5em;
+            text-align: center;
+        }
+        .sidebar ul {
+            list-style: none;
+        }
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+        .sidebar ul li a {
+            color: #4B49AC;
+            text-decoration: none;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+        .sidebar ul li a:hover {
+            color: #f3e40f;
+        }
+        .sidebar ul li a i {
+            margin-right: 10px;
+        }
+        .logout {
+            margin-top: auto;
+            text-align: center;
+        }
+        .logout a {
+            color: #FF0854;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+        .logout a:hover {
+            color: #f3e40f;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #ecf0f1;
+        }
+        .main-content h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .dashboard-section, .dashboard-actions {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .dashboard-section h2, .dashboard-actions h2 {
+            font-size: 1.5em;
+            color: #2c3e50;
+        }
+        .dashboard-actions ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .dashboard-actions ul li {
+            margin: 10px 0;
+        }
+        .dashboard-actions ul li a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+        .dashboard-actions ul li a:hover {
+            color: #2980b9;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
+    <div class="sidebar">
+        <h2>Admin Dashboard</h2>
+        <ul>
+            <li><a href="#"><i class="fas fa-users"></i> Manage Users</a></li>
+            <li><a href="#"><i class="fas fa-box"></i> Manage Inventory</a></li>
+            <li><a href="#"><i class="fas fa-shopping-cart"></i> View Orders</a></li>
+            <li><a href="#"><i class="fas fa-chart-line"></i> View Reports</a></li>
+        </ul>
+        <div class="logout">
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <div class="main-content">
         <h1>Welcome to the Admin Dashboard</h1>
 
         <div class="dashboard-section">
@@ -16,16 +122,13 @@
         </div>
 
         <div class="dashboard-actions">
+            <h2>Quick Actions</h2>
             <ul>
                 <li><a href="#">Manage Users</a></li>
                 <li><a href="#">View Orders</a></li>
                 <li><a href="#">Manage Inventory</a></li>
                 <li><a href="#">View Reports</a></li>
             </ul>
-        </div>
-
-        <div class="logout">
-            <a href="{{ url_for('logout') }}">Logout</a>
         </div>
     </div>
 </body>

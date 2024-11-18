@@ -4,33 +4,207 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">  <!-- Optional: Link to a CSS file -->
+    <style>
+        /* Reset default styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #5c8cfc;
+            color: rgb(24, 18, 18);
+            padding-bottom: 15px;
+            text-align: right;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 10px;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: #FF0854;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+        }
+
+        .sidebar {
+            background-color: #ffff; 
+            color: #4B49AC;
+            width: 190px;
+            padding: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 1rem;
+            color: #4B49AC;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 10px;
+        }
+
+        .sidebar ul li {
+            margin: 1rem 0;
+        }
+
+        .sidebar ul li a {
+            color: #4B49AC;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            color: #f3e40f;
+        }
+
+        .main {
+            margin-left: 20px;
+            padding: 35px;
+            flex: 1;
+            background-color: #ffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #5cacfc;
+            color: white;
+            margin-top: auto;
+        }
+
+        h1, h2, h3 {
+            margin: 1rem 0;
+        }
+
+        ul {
+            margin-top: 1rem;
+        }
+
+        /* Popup notification styling */
+        #notification-popup {
+            display: none;
+            position: fixed;
+            bottom: 70px; /* Just above the footer */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4caf50;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        #notification-popup.rejected {
+            background-color: #fa5151;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha384-u0hX5ZhBzW0gOpN/q2+YZVe+mpsxt5Vgy6iqNHk9ZsWv8LGxjjYbrTEhz8UjbvBr" crossorigin="anonymous">
 </head>
 <body>
     <header>
-        <h1>Welcome to the Employee Dashboard</h1>
         <nav>
             <ul>
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </nav>
     </header>
-    <main>
-        <h2>Your Information</h2>
-        <!-- Display employee information here -->
-        <p>Username: {{ current_user.username }}</p>
-        <p>Role: {{ current_user.role }}</p>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Navigation</h2>
+            <ul>
+                <li><a href="{{ url_for('request_leave') }}">Leave Management</a></li>
+                <li><a href="#">Tasks</a></li>
+                <li><a href="#">Reports</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
+        </aside>
 
-        <h3>Recent Activities</h3>
-        <!-- Add a section for recent activities -->
-        <ul>
-            <li>Activity 1</li>
-            <li>Activity 2</li>
-            <li>Activity 3</li>
-        </ul>
-    </main>
+        <!-- Notification Popup -->
+        <div id="notification-popup"></div>
+
+        <!-- Main Dashboard Content -->
+        <main class="main">
+            <h2>Your Information</h2>
+            <p><strong>Username:</strong> {{ current_user.username }}</p>
+            <p><strong>Role:</strong> {{ current_user.role }}</p>
+
+            <h3>Recent Activities</h3>
+            <ul>
+                <li>Activity 1</li>
+                <li>Activity 2</li>
+                <li>Activity 3</li>
+            </ul>
+
+        
+        <div class="dashboard-content">
+            <h2>Your Leave Requests</h2>
+            <ul>
+                {% for leave in leave_requests %}
+                    <li>
+                        {{ leave.start_date }} - {{ leave.end_date }}: {{ leave.status }}
+                        {% if leave.response_message %} ({{ leave.response_message }}) {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        </main>
+    </div>
     <footer>
         <p>&copy; 2024 Your Company Name</p>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const leaveRequests = {{ leave_requests | tojson }};
+            leaveRequests.forEach(leave => {
+                if (leave.status === 'Approved' || leave.status === 'Rejected') {
+                    const popup = document.getElementById("notification-popup");
+                    popup.classList.toggle("rejected", leave.status === 'Rejected');
+                    popup.innerText = `Your leave request from ${leave.start_date} to ${leave.end_date} has been ${leave.status}.`;
+                    popup.style.display = "block";
+                    
+                    setTimeout(() => {
+                        popup.style.display = "none";
+                    }, 5000);
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>

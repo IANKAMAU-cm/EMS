@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for {{ job.job_title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        h2 {
+            font-size: 1.2em;
+            color: #555;
+            margin-top: 0;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+        .button-container {
+            text-align: center;
+        }
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 1em;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Apply for {{ job.job_title }}</h1>
+        <h2>{{ job.job_description }}</h2>
+
+        <form method="POST" action="{{ url_for('apply_job', job_id=job.id) }}">
+            {{ form.hidden_tag() }}
+
+            <div>
+                <label for="applicant_name">{{ form.applicant_name.label }}</label>
+                {{ form.applicant_name(id="applicant_name") }}
+                {% if form.applicant_name.errors %}
+                    <small class="error">{{ form.applicant_name.errors[0] }}</small>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="email">{{ form.email.label }}</label>
+                {{ form.email(id="email") }}
+                {% if form.email.errors %}
+                    <small class="error">{{ form.email.errors[0] }}</small>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="resume">{{ form.resume.label }}</label>
+                {{ form.resume(id="resume") }}
+                {% if form.resume.errors %}
+                    <small class="error">{{ form.resume.errors[0] }}</small>
+                {% endif %}
+            </div>
+
+            <div class="button-container">
+                <button type="submit">Submit Application</button>
+            </div>
+        </form>
+
+        <a class="back-link" href="{{ url_for('job_list') }}">Back to Job Listings</a>
+    </div>
+</body>
+</html>

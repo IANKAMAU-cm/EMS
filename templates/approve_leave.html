@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Review Leave Request</title>
+</head>
+<body>
+    <h1>Review Leave Request</h1>
+    <p>Employee: {{ leave_request.employee.username }}</p>
+    <p>From: {{ leave_request.start_date }}</p>
+    <p>To: {{ leave_request.end_date }}</p>
+    <p>Reason: {{ leave_request.reason }}</p>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <!-- Status Selection (Approve/Reject) -->
+        {{ form.status.label }} {{ form.status }}
+
+        <!-- Response Message Field -->
+        <label for="response_message">Response Message:</label>
+        <textarea name="response_message" id="response_message" rows="4" cols="50"
+            placeholder="Enter your message for the employee..."></textarea>
+
+        <!-- Submit Button -->
+        {{ form.submit() }}
+    </form>
+
+    <a href="{{ url_for('manage_leave_requests') }}">Back to Leave Requests</a>
+</body>
+</html>
